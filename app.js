@@ -3,10 +3,18 @@ require ('dotenv').config();
 
 // Middleware body-parce
 const sistemaArchivo = require("fs")
-const ruta = require ("path")
+const ruta = require ("path")          
 //importar multer
 const multer = require("multer")
-
+//almacenamiento 
+const almacen = multer.diskStorage({
+    destination:(req,file,cb)=>{cb(null, "misimagenes/")},
+    filename:(req,file,cb)=>{
+        const extension = ruta.extname(file.originalname)
+        cb(null, `${Date.now()}${extension}`)
+    }
+})
+const subir = multer({storage: almacen});
 const app = express();
 const puerto = process.env.MIPUERTO || 3003;
 app.use(express.json())
@@ -19,7 +27,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/aprendices", (req, res) => {
-    //res.status(200).json({'Mensaje': 'Lista Aprendices'})
+    //res.status(200).json({'Mensaje': 'Lista Aprendices'})+
         sistemaArchivo.readFile(rutaMiArchivo,"utf-8",(error, datos) => {
         if (error) res.status(500).json({mensaje:"No se puede leer el archivo"})
         else{
@@ -29,12 +37,13 @@ app.get("/api/aprendices", (req, res) => {
     })
 })
 
-app.post("/api/aprendices", (req, res) => {
+app.post("/api/aprendices", subir.single("imagen"), (req, res) => {
+       const datosAprendiz = req.body 
+       datosAprendiz.imagen = req.file? `/misimagenes/${req.file.filename}`: "sin imagen"
         sistemaArchivo.readFile(rutaMiArchivo,"utf-8",(error, datos) => {
         if (error) res.status(500).json({mensaje:"No se puede leer el archivo"})
             const listaAprendices = JSON.parse(datos)
     
-        const datosAprendiz = req.body 
         listaAprendices.push(datosAprendiz)
 
         sistemaArchivo.writeFile(rutaMiArchivo, JSON.stringify(listaAprendices, null, 2),(error)=>{
