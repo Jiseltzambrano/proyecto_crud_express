@@ -1,33 +1,47 @@
-import express from "express";
-import dotenv from "dotenv";
+const express = require ('express');
+require ('dotenv').config();
 
-dotenv.config();
+// Middleware body-parce
+const sistemaArchivo = require("fs")
+const ruta = require ("path")
+//importar multer
+const multer = require("multer")
 
 const app = express();
-
 const puerto = process.env.MIPUERTO || 3003;
-// Middleware body-parce
+app.use(express.json())
+app.use(express.urlencoded({extended : true}))
+const rutaMiArchivo = ruta.join(__dirname,"datos.json")
+
 app.use(express.json());
 app.get("/", (req, res) => {
     res.send("API Rest Full con express");
 });
 
 app.get("/api/aprendices", (req, res) => {
-    res.status(200).json({'Mensaje': 'Lista Aprendices'})
+    //res.status(200).json({'Mensaje': 'Lista Aprendices'})
+        sistemaArchivo.readFile(rutaMiArchivo,"utf-8",(error, datos) => {
+        if (error) res.status(500).json({mensaje:"No se puede leer el archivo"})
+        else{
+            const listaAprendices = JSON.parse(datos)
+            res.status(200).json({Listado: listaAprendices})
+        }
+    })
 })
 
 app.post("/api/aprendices", (req, res) => {
-    const datosaprendiz  = req.body;
-    const edad = req.body.edad;
-    if(edad < 18){
-        return res.status(400).json({'Mensaje': "El aprendiz es menor de edad"})
-    }
-    else if(edad >= 18){
-        return res.status(400).json({'Mensaje': "El aprendiz es mayor de edad"})
-    }
+        sistemaArchivo.readFile(rutaMiArchivo,"utf-8",(error, datos) => {
+        if (error) res.status(500).json({mensaje:"No se puede leer el archivo"})
+            const listaAprendices = JSON.parse(datos)
     
-    res.status(201).json({'Mensaje': "crear aprendiz",datos: datosaprendiz})
-    
+        const datosAprendiz = req.body 
+        listaAprendices.push(datosAprendiz)
+
+        sistemaArchivo.writeFile(rutaMiArchivo, JSON.stringify(listaAprendices, null, 2),(error)=>{
+         if (error) res.status(500).json({error:"no se pueden escribir en file"})
+        res.status(200).json({mensaje: "creado", Datos : datosAprendiz})
+        })
+    })
 })
 
 app.put("/api/aprendices/:id", (req, res) => {

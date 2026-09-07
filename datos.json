@@ -1,0 +1,50 @@
+[
+  {
+    "nombre": "jiselt",
+    "edad": 17,
+    "correo": "jiseltzambrano",
+    "imagen": "url",
+    "clave": "1526"
+  },
+  null,
+  null,
+  null,
+  {},
+  {},
+  {
+    "nombre": "roky",
+    "edad": 17,
+    "correo": "roky@",
+    "imagen": "url",
+    "clave": "1254"
+  },
+  {
+    "nombre": "francisco",
+    "edad": 17,
+    "correo": "francisco@",
+    "imagen": "url",
+    "clave": "1234"
+  },
+  {
+    "nombre": "francisco",
+    "edad": 17,
+    "correo": "francisco@",
+    "imagen": "url",
+    "clave": "1234"
+  },
+  {
+    "nombre": "valentina",
+    "edad": 17,
+    "correo": "valentina@",
+    "imagen": "url",
+    "clave": "1284"
+  },
+  null,
+  {
+    "nombre": "sofia",
+    "edad": "17",
+    "correo ": "sofia@",
+    "imagen": "url",
+    "clave": "2026"
+  }
+]
