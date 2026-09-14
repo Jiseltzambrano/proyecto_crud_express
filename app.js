@@ -53,14 +53,34 @@ app.post("/api/aprendices", subir.single("imagen"), (req, res) => {
     })
 })
 
-app.put("/api/aprendices/:id", (req, res) => {
-    res.status(200).json({'Mensaje': 'Actualizar Aprendiz'})
-})
+app.put("/api/aprendices/:id", upload.single("imagen"), async (req, res) => {
+  try {
+    let lista = await leerDatos();
+    const index = lista.findIndex(a => a.id == req.params.id);
+    if (index === -1) return res.status(404).json({ mensaje: "No encontrado" });
 
-app.delete("/api/aprendices", (req, res) => {
-    res.status(200).json({'Mensaje': 'Eliminado'})
-})
+    const imagen = req.file ? `/misimagenes/${req.file.filename}` : lista[index].imagen;
+    lista[index] = { ...lista[index], ...req.body, id: req.params.id, imagen };
+    
+    await guardarDatos(lista);
+    res.json({ mensaje: "Actualizado", Datos: lista[index] });
+  } catch {
+    res.status(500).json({ mensaje: "Error al actualizar" });
+  }
+});
 
+app.delete("/api/aprendices/:id", async (req, res) => {
+  try {
+    let lista = await leerDatos();
+    const filtrados = lista.filter(a => a.id != req.params.id);
+    if (lista.length === filtrados.length) return res.status(404).json({ mensaje: "No encontrado" });
+
+    await guardarDatos(filtrados);
+    res.json({ mensaje: "Eliminado" });
+  } catch {
+    res.status(500).json({ mensaje: "Error al eliminar" });
+  }
+});
 
 
 app.listen(puerto, () => {
