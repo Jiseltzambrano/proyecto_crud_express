@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
 const port = process.env.MIPUERTO || 3003; 
-
+//importar mis midellaware
+const registromidelware = require("./middleware/registromiddleware")
 // Librería fs y path
 const sistemaArchivo = require("fs");
 const ruta = require("path");
@@ -12,6 +13,7 @@ const { validarAprendiz } = require("./validaciones/validaciones");
 
 // Importar y configurar multer
 const multer = require("multer");
+const manejadorErrores = require('./middleware/manejadoErrores');
 const almacen = multer.diskStorage({
   destination: (req, file, cb) => { 
     cb(null, "misImagenes/");
@@ -26,6 +28,9 @@ const subir = multer({ storage: almacen });
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+//usar nuestro midellware
+app.use(registromidelware)
+app.use(manejadorErrores)
 app.use('/misImagenes', express.static(ruta.join(__dirname, 'misImagenes')));
 
 // GET: Obtener todos los aprendices
