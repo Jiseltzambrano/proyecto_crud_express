@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.MIPUERTO || 3003; 
 //importar mis midellaware
 const registromidelware = require("./middleware/registromiddleware")
+const manejadoErrores = require("./middleware/manejadoErrores")
 // Librería fs y path
 const sistemaArchivo = require("fs");
 const ruta = require("path");
@@ -13,7 +14,7 @@ const { validarAprendiz } = require("./validaciones/validaciones");
 
 // Importar y configurar multer
 const multer = require("multer");
-const manejadorErrores = require('./middleware/manejadoErrores');
+
 const almacen = multer.diskStorage({
   destination: (req, file, cb) => { 
     cb(null, "misImagenes/");
@@ -30,7 +31,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //usar nuestro midellware
 app.use(registromidelware)
-app.use(manejadorErrores)
+
+
 app.use('/misImagenes', express.static(ruta.join(__dirname, 'misImagenes')));
 
 // GET: Obtener todos los aprendices
@@ -125,7 +127,10 @@ app.delete('/api/aprendices/:id', (req, res) => {
     });
   });
 });
-
+app.get("/api/error",(req, res, next)=>{
+  next(new Error("este es un error provocado"))
+})
+app.use(manejadoErrores)
 app.listen(port, () => {
   console.log(`Servidor en funcionamiento en el puerto: http://localhost:${port}`);
 });

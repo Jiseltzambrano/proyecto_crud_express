@@ -9,7 +9,7 @@ const manejadorErrores = (error, req, res, next) => {
 
     res.json({ERROR: "Error" ,codigoError,mensajeError, 
         //configurar .env , para mostrar errores solo en modo develoment
-        ...(process.env.NODE_ENV==="develoment",{stack:error.stack})
+        ...(process.env.NODE_ENV==="development" && {stack:error.stack})
     })
     next()
 };
