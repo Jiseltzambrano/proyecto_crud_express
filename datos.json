@@ -6,60 +6,12 @@
     "imagen": "url",
     "clave": "1526"
   },
-  null,
-  null,
-  null,
-  {},
-  {},
   {
-    "nombre": "roky",
+    "id": 1,
+    "nombre": "jiselt",
     "edad": 17,
-    "correo": "roky@",
-    "imagen": "url",
-    "clave": "1254"
-  },
-  {
-    "nombre": "francisco",
-    "edad": 17,
-    "correo": "francisco@",
-    "imagen": "url",
-    "clave": "1234"
-  },
-  {
-    "nombre": "francisco",
-    "edad": 17,
-    "correo": "francisco@",
-    "imagen": "url",
-    "clave": "1234"
-  },
-  {
-    "nombre": "valentina",
-    "edad": 17,
-    "correo": "valentina@",
-    "imagen": "url",
-    "clave": "1284"
-  },
-  null,
-  {
-    "nombre": "sofia",
-    "edad": "17",
-    "correo ": "sofia@",
-    "imagen": "url",
-    "clave": "2026"
-  },
-  {
-    "imagen": "sin imagen"
-  },
-  {
-    "imagen": "/misimagenes/1788797386718"
-  },
-  {
-    "imagen": "sin imagen"
-  },
-  {
-    "imagen": "/misimagenes/1788797747577.jpg"
-  },
-  {
-    "imagen": "/misimagenes/1788797936663.jpg"
+    "correo": "jiseltzambrano@gmail.com",
+    "clave": "87716",
+    "imagen": "sin Imagen"
   }
 ]
